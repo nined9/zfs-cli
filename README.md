@@ -4,6 +4,8 @@
 
 ## Usage
 
+`npm install -g zfs-cli`
+
 ### setup
 添加
 
@@ -26,8 +28,7 @@
 ## TODO
 
 - [ ] setup指令支持yarn
-- [ ] setup指令支持默认源设置
-- [ ] setup指令支持默认源设置
+- [ ] setup指令支持默认下载源设置
 - [ ] setup指令支持不同源库名相同时，手动选择再继续
 - [ ] setup指令支持切换不同配置文件
 - [ ] setup指令添加通用快速安装配置，特殊库依赖时的库安装速度
