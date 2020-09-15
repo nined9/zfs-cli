@@ -12,11 +12,13 @@ const configJson = require('../config.json');
 program.version(packageJson.version);
 
 program
-  .command('setup <registry>')
-  .option("-rm, --remove", "remove some packages")
+  .command('setup [registry]')
+  .option("-r, --remove", "remove some packages")
+  .option("-d, --default", "set default registry")
+  .option("-t, --remove-registry", "remove registry")
   .description('部分库不同源，一键安装')
   .action((registry, cmd) => {
-    if (registry === "start") {
+    if (!registry || registry === "start") {
 
       const packagePath = path.resolve(process.cwd(), "./package.json");
     
@@ -24,24 +26,56 @@ program
 
       return;
     }
-    // setup(name)
-    console.log(registry);
-    const packages = cmd.args.slice(1);
-    console.log(packages);
-    console.log(cmd.remove);
+    
+    if (registry === "start") {
+    } else if (registry === 'ls') {
+      
+      const args = cmd.args.slice(1);
+      if (args.length > 0) {
+        const store = {};
+        const { libs } = configJson;
+        Object.keys(libs).forEach(curRegistry => {
+          const libNames = libs[curRegistry];
+          libNames.forEach(libName => {
+            if (args.includes(libName)) {
+              if (!store[libName]) {
+                store[libName] = [];
+              }
+              store[libName].push(curRegistry);
+            }
+          });
+        });
+        console.log(JSON.stringify(store, null, 2));
+      } else {
+        console.log(JSON.stringify(configJson, null, 2));
+      }
+      return;
+    } else if (cmd.default) {
+      configJson.originRegistry = registry;
+      fs.writeFileSync(path.resolve(__dirname, "../config.json"), JSON.stringify(configJson, null, 2), {encoding: 'utf-8'});
+      
+      return;
+    } else if (cmd.removeRegistry) {
+      delete configJson.libs[registry];
 
-    const originSet = new Set(configJson[registry] || []);
+      fs.writeFileSync(path.resolve(__dirname, "../config.json"), JSON.stringify(configJson, null, 2), {encoding: 'utf-8'});
+      return;
+    }
+    // setup(name)
+    const packages = cmd.args.slice(1);
+
+    const originSet = new Set(configJson.libs[registry] || []);
     if (cmd.remove) {
       packages.forEach(pkg => originSet.remove(pkg));
     } else {
       packages.forEach(pkg => originSet.add(pkg));
     }
-    configJson[registry] = [...originSet];
+    configJson.libs[registry] = [...originSet];
     fs.writeFileSync(path.resolve(__dirname, "../config.json"), JSON.stringify(configJson, null, 2), {encoding: 'utf-8'});
     
     // console.log(process.cwd() + '/' + 'package.json');
     console.log(path.resolve(__dirname, "../config.json"));
-    console.log(configJson);
+    console.log(configJson.libs[registry]);
     console.log(chalk.blue("设置不同源的库成功"));
   });
 

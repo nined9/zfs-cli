@@ -7,28 +7,46 @@
 `npm install -g zfs-cli`
 
 ### setup
-添加
+#### 查看
+
+`zfs-cli setup ls`
+> 查看所有配置信息
+
+`zfs-cli setup ls lib-name1 lib-name2...`
+> 查看lib-name1, lib-name2 等等库设置的源
+
+#### 添加
 
 `zfs-cli setup registry lib-name1 lib-name2 ...`
 
-> 指定lib-name1/lib-name2等等库的源为registry源
+> 指定lib-name1, lib-name2等等库的源为registry源
 
-移除
+#### 移除
 
-`zfs-cli setup registry -rm/--remove lib-name1 lib-name2 ...`
+`zfs-cli setup registry -r/--remove lib-name1 lib-name2 ...`
 
-> 移除lib-name1/lib-name2等库源的指定
+> 移除lib-name1, lib-name2等库源的指定
 
-安装
+`zfs-cli setup -t/--remove-registry registry`
 
-`zfs-cli setup start`
+> 移除registry源的所有库配置
+
+#### 安装
+
+`zfs-cli setup`
 
 > 进行依赖的安装，当检测到dependencies里有上述lib-name1/lib-name2等库时，就会在安装时切换到其指定的registry源里去安装对应的库
+
+#### 默认下载源设置
+
+`zfs-cli setup -d/--default registry`
+
+> 给未配置下载源的库设置统一的下载源
 
 ## TODO
 
 - [ ] setup指令支持yarn
-- [ ] setup指令支持默认下载源设置
+- [x] setup指令支持默认下载源设置
 - [ ] setup指令支持不同源库名相同时，手动选择再继续
 - [ ] setup指令支持切换不同配置文件
 - [ ] setup指令添加通用快速安装配置，特殊库依赖时的库安装速度

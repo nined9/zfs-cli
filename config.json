@@ -1,8 +1,11 @@
 {
-  "http://192.168.0.215:4873/": [
-    "zfs-ui",
-    "@zfs/element-ui",
-    "zfs-common",
-    "zfs-service"
-  ]
+  "originRegistry": "https://registry.npm.taobao.org/",
+  "libs": {
+    "http://192.168.0.215:4873/": [
+      "zfs-ui",
+      "@zfs/element-ui",
+      "zfs-common",
+      "zfs-service"
+    ]
+  }
 }
