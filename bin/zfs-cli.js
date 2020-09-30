@@ -21,8 +21,9 @@ program
     if (!registry || registry === "start") {
 
       const packagePath = path.resolve(process.cwd(), "./package.json");
+      const packageLockPath = path.resolve(process.cwd(), "./package-lock.json");
     
-      setup(packagePath, configJson);
+      setup(packagePath, packageLockPath, configJson);
 
       return;
     }
