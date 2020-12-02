@@ -5,6 +5,10 @@ const path = require('path');
 const fs = require("fs");
 const chalk = require("chalk");
 
+const { promisify } = require('util');
+const figlet = promisify(require('figlet'));
+const chalkAnimation = require('chalk-animation');
+
 const packageJson = require('../package.json');
 const setup = require('../lib/setup');
 const configJson = require('../config.json');
@@ -17,8 +21,11 @@ program
   .option("-d, --default", "set default registry")
   .option("-t, --remove-registry", "remove registry")
   .description('部分库不同源，一键安装')
-  .action((registry, cmd) => {
+  .action(async (registry, cmd) => {
     if (!registry || registry === "start") {
+
+      const data = await figlet('z f s - c l i    v ' + packageJson.version.split('.').join(' . '));
+      chalkAnimation.rainbow(data).start();
 
       const packagePath = path.resolve(process.cwd(), "./package.json");
       const packageLockPath = path.resolve(process.cwd(), "./package-lock.json");

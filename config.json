@@ -5,7 +5,10 @@
       "zfs-ui",
       "@zfs/element-ui",
       "zfs-common",
-      "zfs-service"
+      "zfs-service",
+      "@zfs/ui",
+      "@zfs/service",
+      "@zfs/common"
     ]
   }
 }
